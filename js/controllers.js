@@ -91,7 +91,8 @@ angular.module('starter', [])
             // Clean up
             canvas = null;
         };
-       // img.src = url;
+        // everything setup, lets go!
+       img.src = url;
     }
 
     $scope.send = function () {
