@@ -62,9 +62,10 @@ angular.module('starter', [])
         //$scope.convertImageToBase64('rimg.jpg', $scope.send);
         var options = {
             quality: 50,
-            destinationType: Camera.DestinationType.DATA_URL,
-            sourceType: 1,      // 0:Photo Library, 1=Camera, 2=Saved Photo Album
-            encodingType: 0     // 0=jpg 1=png
+            destinationType: Camera.DestinationType.FILE_URI,
+            sourceType: Camera.PictureSourceType.CAMERA,      // 0:Photo Library, 1=Camera, 2=Saved Photo Album
+            encodingType: Camera.EncodingType.JPEG,     // 0=jpg 1=png
+            saveToPhotoAlbum: false
         }
         navigator.camera.getPicture(onSuccess, onFail, options);
     }
