@@ -29,6 +29,9 @@
         <h1 class="title" style="text-align:center">Instant POD</h1>
     </ion-header-bar>
     <ion-content padding="true">
+        <div data-ng-show="loading == true" style="position:absolute;top:0px;bottom:0px;left:0px;right:0px;background-color: white;z-index: 100;text-align: center">
+            <img src="img/loading.gif" />
+        </div>
         <div id="body">
             <ul id="contacts"></ul>
         </div>
