@@ -41,7 +41,7 @@
         <div> POD Captured ON: {{ ttime | date:'yyyy-MM-dd HH:mm'}}</div>
         <div style="display:none"> Location: {{ loc }}</div>
 
-        <img id="photo" ng-src="{{picData}}" style="max-width: 100%">
+        <img id="photo" ng-src="{{picData}}" style="max-width: 100%" data-ng-show="picData != null">
         <input id="inp" type="text" placeholder="Name" ng-model="loc" value="">
         
         <button ng-click="send()" class="button button-block button-primary" data-ng-show="picData != null">Submit POD</button>

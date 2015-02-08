@@ -102,10 +102,22 @@ angular.module('starter', [])
        img.src = url;
     }
 
+    $scope.clearForm = function ()
+    {
+        $scope.orderNumber = null;
+        $scope.ttime = null;
+        $scope.utime = null;
+        $scope.loc = null;
+        $scope.picData = null;
+        $scope.dataURL = null;
+    }
+
     $scope.send = function () {
         $scope.convertImageToBase64($scope.picData, function () {
             $scope.utime = new Date();
+            debugger;
             $http.post('http://temp.chills.co.za/instantPOD/api/POD',            
+            // $http.post('http://localhost/InstantPOD/ScanAppServer/api/POD',
                 {
                     orderNumber: $scope.orderNumber,
                     dateTaken: $scope.ttime,
@@ -114,9 +126,13 @@ angular.module('starter', [])
                     img: $scope.dataURL
                 })
             .success(function (data, status, headers, config) {
+                debugger;
+                alert('POD succesfully uploaded! Your reference # is:' + data);
+                $scope.clearForm();
                 //   debugger;
             }).error(function (data, status, header, config) {
-                alert(data);
+                debugger;
+                alert('POD could not be uploaded.');
                 //  debugger;
             });
         });     
