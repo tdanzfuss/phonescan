@@ -6,10 +6,10 @@
         id        = "1225271"
         version   = "1.0.0">
 
-    <name>Scan App</name>
+    <name>Instant POD</name>
 
     <description>
-        Mobile scanner app
+        Instant POD capturing and submission
     </description>
 
     <author href="http://www.retrorabbit.co.za" email="info@retrorabbit.co.za">
