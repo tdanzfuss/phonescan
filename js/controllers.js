@@ -59,14 +59,20 @@ angular.module('starter', [])
             $scope.loc = err.message;
         }
         //$scope.convertImageToBase64('rimg.jpg', $scope.send);
-        var options = {
-            quality: 50,
-            destinationType: Camera.DestinationType.FILE_URI,
-            sourceType: Camera.PictureSourceType.CAMERA,      // 0:Photo Library, 1=Camera, 2=Saved Photo Album
-            encodingType: Camera.EncodingType.JPEG,     // 0=jpg 1=png
-            saveToPhotoAlbum: false
-        }
-        navigator.camera.getPicture(onSuccess, onFail, options);
+        if (navigator.camera == null)
+        {
+            // No camera object so this is test mode
+            onSuccess('rimg.jpg');
+        } else {
+            var options = {
+                quality: 50,
+                destinationType: Camera.DestinationType.FILE_URI,
+                sourceType: Camera.PictureSourceType.CAMERA,      // 0:Photo Library, 1=Camera, 2=Saved Photo Album
+                encodingType: Camera.EncodingType.JPEG,     // 0=jpg 1=png
+                saveToPhotoAlbum: false
+            }
+            navigator.camera.getPicture(onSuccess, onFail, options);
+        }        
     }
     var onSuccess = function (FILE_URI) {
         console.log(FILE_URI);
@@ -86,6 +92,7 @@ angular.module('starter', [])
             canvas.height = img.height;
             canvas.width = img.width;
             ctx.drawImage(img, 0, 0);
+
             $scope.dataURL = canvas.toDataURL('image/jpg');
             callback.call();
             // Clean up
@@ -96,15 +103,15 @@ angular.module('starter', [])
     }
 
     $scope.send = function () {
-        $scope.convertImageToBase64($scope.picData, function (base64Img) {
+        $scope.convertImageToBase64($scope.picData, function () {
             $scope.utime = new Date();
-            $http.post('http://temp.chills.co.za/instantPOD/api/POD',
+            $http.post('http://temp.chills.co.za/instantPOD/api/POD',            
                 {
                     orderNumber: $scope.orderNumber,
                     dateTaken: $scope.ttime,
                     dateSent:$scope.utime,
                     location: $scope.loc,
-                    img: base64Img
+                    img: $scope.dataURL
                 })
             .success(function (data, status, headers, config) {
                 //   debugger;
