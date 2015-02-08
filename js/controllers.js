@@ -5,9 +5,8 @@ angular.module('starter', [])
 
 .controller('CameraCtrl', function ($scope, $http, $timeout) {
 
-
-    $scope.name = null;
-    $scope.nname = null;
+    $scope.orderNumber = null;
+    $scope.name = null;    
     $scope.ttime = null;
     $scope.loc = null;
     $scope.loc2 = null;
@@ -29,8 +28,8 @@ angular.module('starter', [])
     }
 
     $scope.geoSuccess = function (position) {
-        $scope.loc = "Latitude: " + position.coords.latitude +
-       "  Longitude: " + position.coords.longitude;
+        // $scope.loc = "Latitude: " + position.coords.latitude + "  Longitude: " + position.coords.longitude;
+        $scope.loc = "POINT(" + position.coords.longitude + " " + position.coords.latitude + ")"; // Format it into POINT WKT
         $scope.$apply();
     }
     $scope.geoError = function (error) {
@@ -73,7 +72,7 @@ angular.module('starter', [])
         console.log(FILE_URI);
         $scope.picData = FILE_URI;
         $scope.$apply();
-        $scope.convertImageToBase64(FILE_URI, $scope.send);
+        // $scope.convertImageToBase64(FILE_URI, $scope.send);
     };
     var onFail = function (e) {
         console.log("On fail " + e);
@@ -96,22 +95,24 @@ angular.module('starter', [])
     }
 
     $scope.send = function () {
-        //debugger;
-        $scope.utime = new Date();
-        $http.post('http://localhost:53963/api/Contact/uploadImg', { data: "Picture taken: " + $scope.ttime + "\n Name: " + $scope.nname + "\n Location: " + $scope.loc + "\n Picture send: " + $scope.utime + $scope.dataURL })
-       // $http.post('http://localhost:53963/api/Contact/uploadTxt', { data: $scope.dataURL })
-        .success(function (data, status, headers, config) {
-         //   debugger;
-        }).error(function (data, status, header, config) {
-          //  debugger;
-        })
-
-        
-
-
-    }
-
-   
+        $scope.convertImageToBase64($scope.picData, function (base64Img) {
+            $scope.utime = new Date();
+            $http.post('http://temp.chills.co.za/instantPOD/api/POD',
+                {
+                    orderNumber: $scope.orderNumber,
+                    dateTaken: $scope.ttime,
+                    dateSent:$scope.utime,
+                    location: $scope.loc,
+                    img: base64Img
+                })
+            .success(function (data, status, headers, config) {
+                //   debugger;
+            }).error(function (data, status, header, config) {
+                alert(data);
+                //  debugger;
+            });
+        });     
+    }   
 })
 
 
