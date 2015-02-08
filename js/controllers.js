@@ -118,7 +118,7 @@ angular.module('starter', [])
             $scope.utime = new Date();
             $scope.loading = true;
             $http.post('http://temp.chills.co.za/instantPOD/api/POD',            
-            //$http.post('http://localhost/InstantPOD/ScanAppServer/api/POD',
+            // $http.post('http://localhost/InstantPOD/ScanAppServer/api/POD',
                 {
                     orderNumber: $scope.orderNumber,
                     dateTaken: $scope.ttime,
